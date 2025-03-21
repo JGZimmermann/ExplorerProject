@@ -2,19 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\LoginUserRequest;
+use App\Http\Requests\RegisterUserRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function register(Request $request)
+    public function register(RegisterUserRequest $request)
     {
-        $validated = $request->validate([
-            'name'=>'required|string',
-            'email'=>'required|string',
-            'password'=>'required'
-        ]);
+        $validated = $request->validated();
         $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
@@ -23,12 +20,9 @@ class UserController extends Controller
         return "Usuário ". $user->name ." Criado!";
     }
 
-    public function login(Request $request)
+    public function login(LoginUserRequest $request)
     {
-        $validated = $request->validate([
-            'email' => 'required',
-            'password' => 'required'
-        ]);
+        $validated = $request->validated();
         $user = User::where('email', $validated['email'])->first();
         if(!$user || !Hash::check($validated['password'], $user->password)){
             return "Credenciais invalidas";

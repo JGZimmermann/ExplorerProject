@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Services\ExplorerService;
+use App\Http\Requests\StoreExplorerRequest;
+use App\Http\Requests\UpdateExplorerRequest;
+use App\Http\Requests\TradeItemsRequest;
 use App\Models\Explorer;
 use Illuminate\Support\Facades\DB;
 use App\Models\Item;
-use App\Models\Inventory;
 
 class ExplorerController extends Controller
 {
@@ -22,36 +24,27 @@ class ExplorerController extends Controller
         return response()->json($explorer);
     }
 
-    public function store(Request $request)
+    public function store(StoreExplorerRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|String',
-            'age' => 'required|Integer',
-            'localization_id' => 'required|Integer'
-        ]);
+        $validated = $request->validated();
         $explorer = Explorer::create($validated);
         return 'O explorador '.$explorer->name.' foi adicionado na base de dados!';
     }
 
-    public function update(Request $request,Explorer $explorer)
+    public function update(UpdateExplorerRequest $request,Explorer $explorer)
     {
-        $validated = $request->validate([
-            'localization_id' => 'required|Integer'
-        ]);
+        $validated = $request->validated();
         $explorer->update($validated);
         return response()->json($explorer);
     }
 
-    public function trade(Request $request)
+    public function trade(TradeItemsRequest $request)
     {
         $value1 = 0;
         $explorer1_id = 0;
         $explorer2_id = 0;
         $value2 = 0;
-        $validated = $request->validate([
-            'item_id1' => 'required',
-            'item_id2' => 'required',
-        ]);
+        $validated = $request->validated();
 
         if(is_array($validated['item_id1'])){
             foreach ($validated['item_id1'] as $item){

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreItemRequest;
 use App\Models\Item;
 
 class ItemController extends Controller
@@ -18,15 +18,9 @@ class ItemController extends Controller
         return response()->json($item);
     }
 
-    public function store(Request $request)
+    public function store(StoreItemRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string',
-            'value' => 'required',
-            'localization_id' => 'required|Integer',
-            'explorer_id' => 'required|Integer'
-        ]);
-
+        $validated = $request->validated();
         $item = Item::create($validated);
         return "O item ".$item->name." foi criado!";
     }

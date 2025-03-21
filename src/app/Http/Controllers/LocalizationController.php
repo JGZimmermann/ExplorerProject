@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Localization;
+use App\Http\Requests\StoreLocalizationRequest;
 
 class LocalizationController extends Controller
 {
@@ -18,12 +18,9 @@ class LocalizationController extends Controller
         return response()->json($localization);
     }
 
-    public function store(Request $request)
+    public function store(StoreLocalizationRequest $request)
     {
-        $validated = $request->validate([
-            'latitude' => 'required',
-            'longitude' => 'required'
-        ]);
+        $validated = $request->validated();
         $localization = Localization::create($validated);
         return response()->json($localization);
     }
