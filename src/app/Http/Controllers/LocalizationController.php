@@ -2,26 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Localization;
 use App\Http\Requests\StoreLocalizationRequest;
+use App\Http\Repositories\LocalizationRepository;
 
 class LocalizationController extends Controller
 {
+    public function __construct(protected LocalizationRepository $localizationRepository)
+    {
+    }
     public function index()
     {
-        $localizations = Localization::all();
-        return response()->json($localizations);
+        return response()->json($this->localizationRepository->getLocalizations());
     }
 
-    public function show(Localization $localization)
+    public function show($id)
     {
-        return response()->json($localization);
+        return response()->json($this->localizationRepository->getLocalizationById($id));
     }
 
     public function store(StoreLocalizationRequest $request)
     {
-        $validated = $request->validated();
-        $localization = Localization::create($validated);
-        return response()->json($localization);
+        return response()->json($this->localizationRepository->storeLocalization($request->validated()));
     }
 }

@@ -79,6 +79,7 @@ class ExplorerService
                 $item->update(["explorer_id" => $explorer2_id]);
             }
 
+
             if (is_array($validated['item_id2'])) {
                 foreach ($validated['item_id2'] as $item) {
                     $item2 = $this->itemRepository->getItemsById($item);;
@@ -88,6 +89,7 @@ class ExplorerService
                 $item = $this->itemRepository->getItemsById($validated['item_id2']);
                 $item->update(["explorer_id" => $explorer1_id]);
             }
+            return "A troca de itens foi concluída!";
         }
     }
 }

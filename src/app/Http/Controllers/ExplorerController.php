@@ -24,8 +24,7 @@ class ExplorerController extends Controller
 
     public function store(StoreExplorerRequest $request)
     {
-        $explorer = $this->explorerService->storeExplorer($request->validated());
-        return 'O explorador '.$explorer->name.' foi adicionado na base de dados!';
+        return response()->json($this->explorerService->storeExplorer($request->validated()));
     }
 
     public function update(UpdateExplorerRequest $request,$id)
@@ -36,7 +35,6 @@ class ExplorerController extends Controller
 
     public function trade(TradeItemsRequest $request)
     {
-        $this->explorerService->tradeItems($request);
-        return "A troca de itens foi concluída!";
+        return $this->explorerService->tradeItems($request);
     }
 }

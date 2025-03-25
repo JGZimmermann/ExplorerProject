@@ -16,8 +16,8 @@ class ItemRepository
         return Item::all();
     }
 
-    public function storeItem($request)
+    public function storeItem($data)
     {
-       return Item::create($request);
+       return Item::create($data);
     }
 }

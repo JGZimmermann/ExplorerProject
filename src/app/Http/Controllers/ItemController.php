@@ -23,7 +23,6 @@ class ItemController extends Controller
 
     public function store(StoreItemRequest $request)
     {
-        $item = $this->itemRepository->storeItem($request->validated());
-        return "O item ".$item->name." foi criado!";
+        return response()->json($this->itemRepository->storeItem($request->validated()));
     }
 }
