@@ -3,7 +3,6 @@
 namespace App\Http\Repositories;
 
 use App\Models\Explorer;
-use Illuminate\Support\Facades\DB;
 
 class ExplorerRepository
 {
@@ -17,15 +16,13 @@ class ExplorerRepository
         return Explorer::findOrFail($id);
     }
 
-    public function createExplorer(array $array)
+    public function createExplorer($request)
     {
-        return Explorer::create($array);
+        return Explorer::create($request);
     }
 
-    public function itemConsult($id)
+    public function updateExplorer(Explorer $explorer, $request)
     {
-        return DB::table('items')->find($id);
+        return $explorer->update($request);
     }
-
-
 }

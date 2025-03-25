@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Repositories\ItemRepository;
 use App\Http\Requests\StoreItemRequest;
 use App\Models\Item;
 
 class ItemController extends Controller
 {
+    public function __construct(protected ItemRepository $itemRepository)
+    {
+    }
+
     public function index()
     {
-        $items = Item::all();
-        return response()->json($items);
+        return response()->json($this->itemRepository->getAllItems());
     }
 
     public function show(Item $item)
@@ -21,7 +25,7 @@ class ItemController extends Controller
     public function store(StoreItemRequest $request)
     {
         $validated = $request->validated();
-        $item = Item::create($validated);
-        return "O item ".$item->name." foi criado!";
+        $this->itemRepository->storeItem($request);
+        return "O item ".$validated->name." foi criado!";
     }
 }
