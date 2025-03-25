@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Repositories\ItemRepository;
 use App\Http\Requests\StoreItemRequest;
-use App\Models\Item;
 
 class ItemController extends Controller
 {
@@ -17,15 +16,14 @@ class ItemController extends Controller
         return response()->json($this->itemRepository->getAllItems());
     }
 
-    public function show(Item $item)
+    public function show($id)
     {
-        return response()->json($item);
+        return response()->json($this->itemRepository->getItemsById($id));
     }
 
     public function store(StoreItemRequest $request)
     {
-        $validated = $request->validated();
-        $this->itemRepository->storeItem($request);
-        return "O item ".$validated->name." foi criado!";
+        $item = $this->itemRepository->storeItem($request->validated());
+        return "O item ".$item->name." foi criado!";
     }
 }
